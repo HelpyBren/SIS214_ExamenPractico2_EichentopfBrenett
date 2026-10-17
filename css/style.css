@@ -1,0 +1,448 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Rufina:wght@400;700&family=Source+Sans+Pro:wght@300;400;600;700&display=swap');
+
+:root {
+  /*tema claro*/
+  --color-bg: #EEF6F1;
+  --color-surface: #FFFFFF;
+  --color-surface-alt: #E6F1EC;
+  --color-text: #16241F;
+  --color-text-dim: #55606E;
+  --color-border: #CFE3D9;
+  --color-accent: #3fa48b;        /* verde */
+  --color-accent-soft: #9AD9C4;   /* verde pastel */
+  --color-accent-2: #3d7fd6;      /* azul */
+  --color-accent-2-soft: #A9CDF2; /* azul pastel */
+  --color-error: #d64550;
+  --color-link: #2158B3;
+  --color-focus: #3fa48b;
+  --color-footer-text: #123A5E;
+
+  --gradient-bg: linear-gradient(160deg, #E9F7F0 0%, #E7F1FB 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-accent-soft), var(--color-accent-2-soft));
+  --gradient-footer: linear-gradient(120deg, #BFEAD9 0%, #C3DDF7 100%);
+  --gradient-header: linear-gradient(180deg, rgba(154,217,196,0.14), rgba(169,205,242,0.14));
+
+  /*Tipografía*/
+  --font-display: 'Rufina', serif;
+  --font-body: 'Source Sans Pro', sans-serif;
+  --font-label: 'Source Sans Pro', sans-serif;
+
+  /*espaciado*/
+  --space-1: 0.5rem;
+  --space-2: 1rem;
+  --space-3: 1.75rem;
+  --space-4: 3rem;
+  --space-5: 5rem;
+
+  --radius: 2px;
+  --max-w: 760px;
+  --sidebar-w: 220px;
+}
+
+:root[data-theme='dark'] {
+  --color-bg: #0F1E1A;
+  --color-surface: #16302A;
+  --color-surface-alt: #122822;
+  --color-text: #EAF3EF;
+  --color-text-dim: #A9C2BB;
+  --color-border: #294A41;
+  --color-accent: #6FD9BC;
+  --color-accent-soft: #3fa48b;
+  --color-accent-2: #6FA8FF;
+  --color-accent-2-soft: #3d7fd6;
+  --color-error: #ff8a80;
+  --color-link: #8FB8FF;
+  --color-focus: #6FD9BC;
+  --color-footer-text: #DCEBFF;
+
+  --gradient-bg: linear-gradient(160deg, #0C2621 0%, #0E1E30 100%);
+  --gradient-accent: linear-gradient(135deg, var(--color-accent-soft), var(--color-accent-2-soft));
+  --gradient-footer: linear-gradient(120deg, #12352C 0%, #142B41 100%);
+  --gradient-header: linear-gradient(180deg, rgba(111,217,188,0.10), rgba(111,168,255,0.10));
+}
+
+/*reset minimo*/
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-bg);
+  background-image: var(--gradient-bg);
+  background-attachment: fixed;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.65;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+img { max-width: 100%; display: block; }
+a {
+  color: var(--color-link);
+  font-weight: 700;
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.25;
+  margin: 0 0 var(--space-2);
+}
+h1 { font-size: clamp(2rem, 4vw, 2.75rem); }
+h2 { font-size: clamp(1.35rem, 3vw, 1.7rem); }
+h3 { font-size: 1.1rem; font-family: var(--font-body); font-weight: 700; }
+p { margin: 0 0 var(--space-2); color: var(--color-text-dim); max-width: 65ch; font-weight: 300; }
+
+
+header {
+  border-bottom: 1px solid var(--color-border);
+  background-color: var(--color-surface);
+  background-image: var(--gradient-header);
+  box-shadow: 5px 2px 20px 0 rgba(0, 0, 0, 0.06);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+  padding: var(--space-2) var(--space-3);
+}
+.header-inner { display: contents; }
+
+header nav ul {
+  list-style: none;
+  display: flex;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+}
+header nav a {
+  text-decoration: none;
+  color: var(--color-text-dim);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  padding: 0.25rem 0;
+  border-bottom: 2px solid transparent;
+}
+header nav a:hover,
+header nav a[aria-current='page'] {
+  text-decoration: none;
+  color: var(--color-text);
+  border-bottom-color: var(--color-accent-2);
+}
+
+.theme-toggle {
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-family: var(--font-body);
+  line-height: 1;
+}
+.theme-toggle:hover { border-color: var(--color-accent); }
+
+/*layout general*/
+main {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: var(--space-5) var(--space-3) var(--space-5);
+}
+section { margin-bottom: var(--space-5); }
+section:last-child { margin-bottom: var(--space-4); }
+
+.section-label {
+  font-family: var(--font-label);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--color-accent-2);
+  display: block;
+  margin-bottom: var(--space-1);
+}
+
+main h1 {
+  position: relative;
+  padding-bottom: var(--space-2);
+}
+main h1::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 70px;
+  border-bottom: 3px solid var(--color-accent-2-soft);
+}
+
+.maincontent::after { content: ''; display: block; clear: both; }
+.maincontent h1::after { display: none; }
+
+.maincontent .maincontent-photo {
+  float: left;
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid var(--color-accent-soft);
+  margin: 0 var(--space-4) var(--space-2) 0;
+}
+.maincontent .rol {
+  font-family: var(--font-label);
+  text-transform: uppercase;
+  letter-spacing: 1.4px;
+  color: var(--color-accent);
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-top: var(--space-1);
+}
+
+.contact-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) var(--space-3);
+  padding: 0;
+  margin: var(--space-2) 0 var(--space-3);
+  list-style: none;
+  font-size: 0.9rem;
+  color: var(--color-text-dim);
+  clear: left;
+}
+.contact-line a { color: var(--color-text-dim); font-weight: 400; }
+.contact-line a:hover { color: var(--color-accent); }
+
+.btn {
+  display: inline-block;
+  margin-top: var(--space-2);
+  padding: 0.65rem 1.2rem;
+  border-radius: var(--radius);
+  text-decoration: none !important;
+  font-family: var(--font-label);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border: 1px solid var(--color-border);
+  transition: filter .2s ease, background-color .2s ease;
+}
+.btn + .btn { margin-left: var(--space-2); }
+.btn-primary { background-image: var(--gradient-accent); color: #16241F; border-color: transparent; }
+.btn-primary:hover { filter: brightness(0.94); color: #16241F; }
+.btn-secondary { color: var(--color-text); }
+.btn-secondary:hover { background: var(--color-surface-alt); }
+
+@media (max-width: 640px) {
+  .maincontent .maincontent-photo { float: none; margin: 0 0 var(--space-2) 0; }
+}
+
+/* ---------- Timeline (formación) ---------- */
+.timeline { list-style: none; margin: 0; padding: 0; border-left: 3px solid var(--color-accent-soft); }
+.timeline li { position: relative; padding: 0 0 var(--space-4) var(--space-3); }
+.timeline li::before {
+  content: '';
+  position: absolute;
+  left: -8px;
+  top: 4px;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--color-accent-2-soft);
+  border: 2px solid var(--color-bg);
+}
+.timeline time {
+  font-family: var(--font-label);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-accent);
+}
+
+/* =========================================================
+   Tarjetas de proyecto (experiencia.html)
+   Ya no están dentro de un div.proyectos-grid: son
+   <article class="proyecto-card"> directas dentro de <section>.
+   Sin ese contenedor no se arma una grilla de 2 columnas de
+   forma fiable (el section también contiene el título y la
+   intro), así que se apilan en una sola columna con espaciado
+   propio — sigue siendo responsivo y perfectamente válido.
+   ========================================================= */
+.proyecto-card {
+  border-left: 4px solid var(--color-accent-2-soft);
+  background: var(--color-surface);
+  padding: var(--space-3);
+  margin-bottom: var(--space-3);
+  box-shadow: 3px 3px 0 0 rgba(0,0,0,0.04);
+}
+.proyecto-card h3 { margin-bottom: 0.25rem; font-family: var(--font-display); }
+.proyecto-card time { font-family: var(--font-label); font-size: 0.8rem; color: var(--color-text-dim); }
+.proyecto-card .maincontent-photo {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius);
+  margin: var(--space-2) 0;
+  box-shadow: 3px 3px 0 0 rgba(0,0,0,0.04);
+}
+.tag-list { list-style: none; display: flex; flex-wrap: wrap; gap: 0.4rem; margin: var(--space-2) 0 0; padding: 0; }
+.tag-list li {
+  font-family: var(--font-label);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius);
+  color: var(--color-text-dim);
+}
+
+/* ---------- Habilidades ---------- */
+.skills-group { margin-bottom: var(--space-4); }
+.skills-group ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.skills-group li {
+  font-family: var(--font-label);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid var(--color-accent-soft);
+  padding: 0.4rem 0.8rem;
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+/* =========================================================
+   Formulario de contacto (contacto.html)
+   Sin div.form-field: label, input y p.error-msg son hermanos
+   directos dentro de <form>. El espaciado se resuelve dándole
+   margen al input/textarea, y el estado de error se marca con
+   una clase en el propio campo (ver js/validacion.js) en vez
+   de en un contenedor que ya no existe.
+   ========================================================= */
+form { max-width: 480px; }
+form label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin: var(--space-2) 0 0.3rem;
+  color: var(--color-text);
+}
+form label:first-of-type { margin-top: 0; }
+form input, form textarea {
+  display: block;
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+form input:focus, form textarea:focus { border-color: var(--color-accent); }
+form textarea { resize: vertical; min-height: 120px; }
+
+form input.invalid, form textarea.invalid { border-color: var(--color-error); }
+.error-msg {
+  color: var(--color-error);
+  font-size: 0.8rem;
+  margin: 0.3rem 0 0;
+  font-weight: 600;
+  display: none;
+}
+.error-msg.show { display: block; }
+
+form button[type='submit'] { margin-top: var(--space-2); }
+#form-status {
+  margin-top: var(--space-2);
+  padding: 0.7rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 600;
+  display: none;
+}
+#form-status.ok { display: block; background: rgba(63,164,139,0.15); color: var(--color-accent); }
+#form-status.fail { display: block; background: rgba(214,69,80,0.12); color: var(--color-error); }
+
+/* ---------- Footer ---------- */
+.site-footer {
+  background-color: var(--color-accent-soft);
+  background-image: var(--gradient-footer);
+  color: var(--color-footer-text);
+  padding: var(--space-2) var(--space-3);
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 300;
+  margin-top: auto;
+}
+.site-footer .social { display: flex; justify-content: center; gap: var(--space-2); margin-bottom: var(--space-1); list-style: none; padding: 0; }
+.site-footer a { color: var(--color-footer-text); font-weight: 700; }
+.site-footer p { color: var(--color-footer-text); margin: 0; font-weight: 500; }
+
+/* ---------- Responsivo: header en móvil ---------- */
+@media (max-width: 640px) {
+  header { flex-direction: column; align-items: flex-start; }
+  header nav ul { gap: var(--space-2); }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  * { transition: none !important; }
+}
+
+/* =========================================================
+   Barra de navegación vertical (escritorio, ≥900px)
+   header pasa a ser una barra fija a la izquierda; como
+   .header-inner es `display:contents`, esta regla funciona
+   igual en index.html (que sí tiene ese div) y en las demás
+   páginas (que no lo tienen).
+   ========================================================= */
+@media (min-width: 900px) {
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    border-bottom: none;
+    border-right: 1px solid var(--color-border);
+    padding: var(--space-4) var(--space-3);
+    overflow-y: auto;
+  }
+  header nav { width: 100%; }
+  header nav ul {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+  }
+  header nav a { display: block; padding: 0.3rem 0; }
+  .theme-toggle { margin-top: auto; align-self: flex-start; }
+
+  main {
+    margin-left: var(--sidebar-w);
+    max-width: none;
+    padding: var(--space-5) var(--space-4);
+  }
+  main > * { max-width: var(--max-w); }
+
+  .site-footer { margin-left: var(--sidebar-w); }
+}
