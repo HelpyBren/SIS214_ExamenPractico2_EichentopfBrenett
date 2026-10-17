@@ -1,17 +1,21 @@
-// menu.js — menú hamburguesa responsivo (móvil y tablet)
+
 (function () {
   const boton = document.getElementById('menu-toggle');
   const nav = document.getElementById('nav-principal');
   if (!boton || !nav) return;
 
+  function establecerEstado(abierto) {
+    nav.classList.toggle('is-open', abierto);
+    boton.setAttribute('aria-expanded', String(abierto));
+    boton.setAttribute('aria-label', abierto ? 'Cerrar menú de navegación' : 'Abrir menú de navegación');
+  }
+
   function cerrarMenu() {
-    nav.classList.remove('is-open');
-    boton.setAttribute('aria-expanded', 'false');
+    establecerEstado(false);
   }
 
   function alternarMenu() {
-    const abierto = nav.classList.toggle('is-open');
-    boton.setAttribute('aria-expanded', String(abierto));
+    establecerEstado(!nav.classList.contains('is-open'));
   }
 
   boton.addEventListener('click', alternarMenu);
@@ -21,7 +25,13 @@
     enlace.addEventListener('click', cerrarMenu);
   });
 
-  // Si la pantalla pasa a escritorio, el nav vuelve a su estado fijo
+  document.addEventListener('keydown', function (evento) {
+    if (evento.key === 'Escape' && nav.classList.contains('is-open')) {
+      cerrarMenu();
+      boton.focus();
+    }
+  });
+
   const mediaEscritorio = window.matchMedia('(min-width: 1025px)');
   mediaEscritorio.addEventListener('change', function (evento) {
     if (evento.matches) cerrarMenu();

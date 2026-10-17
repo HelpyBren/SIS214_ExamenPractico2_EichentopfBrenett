@@ -1,11 +1,14 @@
-// theme.js — modo claro/oscuro persistente con localStorage (JSON)
+
 (function () {
   const STORAGE_KEY = 'cv-theme';
   const root = document.documentElement;
-  const boton = document.getElementById('theme-toggle');
 
   function guardarTema(tema) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ tema: tema }));
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ tema: tema }));
+    } catch (error) {
+      console.warn('No se pudo guardar el tema:', error);
+    }
   }
 
   function leerTemaGuardado() {
@@ -19,19 +22,24 @@
     }
   }
 
+  function actualizarBoton() {
+    const boton = document.getElementById('theme-toggle');
+    if (!boton) return;
+    const esOscuro = root.getAttribute('data-theme') === 'dark';
+    boton.textContent = esOscuro ? 'Modo claro' : 'Modo oscuro';
+    boton.setAttribute('aria-pressed', String(esOscuro));
+  }
+
   function aplicarTema(tema) {
-    const esOscuro = tema === 'dark';
-    if (esOscuro) {
+    if (tema === 'dark') {
       root.setAttribute('data-theme', 'dark');
     } else {
       root.removeAttribute('data-theme');
     }
-    if (boton) {
-      boton.textContent = esOscuro ? 'Modo claro' : 'Modo oscuro';
-      boton.setAttribute('aria-pressed', String(esOscuro));
-    }
+    actualizarBoton();
   }
 
+  // Tema inicial: preferencia guardada > preferencia del sistema > claro
   const guardado = leerTemaGuardado();
   if (guardado) {
     aplicarTema(guardado);
@@ -39,12 +47,15 @@
     aplicarTema('dark');
   }
 
-  if (boton) {
+  // El botón existe solo cuando el DOM está listo
+  document.addEventListener('DOMContentLoaded', function () {
+    actualizarBoton();
+    const boton = document.getElementById('theme-toggle');
+    if (!boton) return;
     boton.addEventListener('click', function () {
-      const actual = root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
-      const nuevo = actual === 'dark' ? 'light' : 'dark';
+      const nuevo = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
       aplicarTema(nuevo);
       guardarTema(nuevo);
     });
-  }
+  });
 })();

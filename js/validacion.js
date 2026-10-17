@@ -1,6 +1,4 @@
-// validacion.js — valida el formulario de contacto en el cliente.
-// intercepta submit con preventDefault() y valida en tiempo real
-// con el evento 'input' (no solo al salir del campo).
+
 (function () {
   const form = document.getElementById('form-contacto');
   if (!form) return;
@@ -9,13 +7,13 @@
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
   function mensajeDe(campo) {
-    return campo.nextElementSibling && campo.nextElementSibling.classList.contains('error-msg')
-      ? campo.nextElementSibling
-      : null;
+    const siguiente = campo.nextElementSibling;
+    return siguiente && siguiente.classList.contains('error-msg') ? siguiente : null;
   }
 
   function mostrarError(campo, texto) {
     campo.classList.add('invalid');
+    campo.setAttribute('aria-invalid', 'true');
     const msg = mensajeDe(campo);
     if (msg) {
       msg.textContent = texto;
@@ -25,6 +23,7 @@
 
   function limpiarError(campo) {
     campo.classList.remove('invalid');
+    campo.removeAttribute('aria-invalid');
     const msg = mensajeDe(campo);
     if (msg) {
       msg.textContent = '';
@@ -32,38 +31,45 @@
     }
   }
 
-  function validarCampo(campo) {
+  //devuelve el texto de error del campo o '' si es válido
+  function obtenerError(campo) {
     const valor = campo.value.trim();
 
-    if (campo.hasAttribute('required') && valor === '') {
-      mostrarError(campo, 'Este campo es obligatorio.');
-      return false;
+    if (campo.validity.valueMissing || (campo.required && valor === '')) {
+      return 'Este campo es obligatorio.';
     }
-    if (campo.type === 'email' && valor !== '' && !regexEmail.test(valor)) {
-      mostrarError(campo, 'Ingresa un correo válido, ej. nombre@dominio.com');
-      return false;
+    if (campo.type === 'email' && (campo.validity.typeMismatch || !regexEmail.test(valor))) {
+      return 'Ingresa un correo válido, ej. nombre@dominio.com';
     }
-    if (campo.id === 'mensaje' && valor !== '' && valor.length < 10) {
-      mostrarError(campo, 'El mensaje debe tener al menos 10 caracteres.');
+    if (campo.minLength > 0 && valor.length < campo.minLength) {
+      return 'Debe tener al menos ' + campo.minLength + ' caracteres.';
+    }
+    return '';
+  }
+
+  function validarCampo(campo) {
+    const error = obtenerError(campo);
+    if (error) {
+      mostrarError(campo, error);
       return false;
     }
     limpiarError(campo);
     return true;
   }
 
-  // Validación en tiempo real mientras el usuario escribe
-  form.querySelectorAll('input, textarea').forEach(function (campo) {
+  const campos = Array.from(form.querySelectorAll('input, textarea'));
+
+  campos.forEach(function (campo) {
     campo.addEventListener('input', function () { validarCampo(campo); });
     campo.addEventListener('blur', function () { validarCampo(campo); });
   });
 
   form.addEventListener('submit', function (evento) {
     evento.preventDefault();
-    let formularioValido = true;
 
-    form.querySelectorAll('input, textarea').forEach(function (campo) {
-      if (!validarCampo(campo)) formularioValido = false;
-    });
+    // map() evalúa TODOS los campos (así se muestran todos los errores a la vez)
+    const resultados = campos.map(validarCampo);
+    const formularioValido = resultados.every(Boolean);
 
     status.classList.remove('ok', 'fail');
 
@@ -74,6 +80,11 @@
     } else {
       status.textContent = 'Revisa los campos marcados antes de enviar.';
       status.classList.add('fail');
+
+      const primerInvalido = campos.find(function (campo) {
+        return campo.classList.contains('invalid');
+      });
+      if (primerInvalido) primerInvalido.focus();
     }
   });
 })();
