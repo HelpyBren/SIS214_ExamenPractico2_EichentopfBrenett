@@ -1,4 +1,5 @@
-
+// tema claro/oscuro. Va en el <head> para que el tema se aplique antes de pintar
+// la página (si no, al recargar en oscuro se ve un destello blanco)
 (function () {
   const STORAGE_KEY = 'cv-theme';
   const root = document.documentElement;
@@ -7,6 +8,7 @@
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ tema: tema }));
     } catch (error) {
+      // pasa en modo privado o con el almacenamiento lleno; el tema igual funciona esa sesión
       console.warn('No se pudo guardar el tema:', error);
     }
   }
@@ -18,6 +20,7 @@
       const datos = JSON.parse(crudo);
       return datos && datos.tema ? datos.tema : null;
     } catch (error) {
+      // JSON corrupto o sin acceso a localStorage: se ignora y se usa el valor por defecto
       return null;
     }
   }
@@ -39,7 +42,7 @@
     actualizarBoton();
   }
 
-  // Tema inicial: preferencia guardada > preferencia del sistema > claro
+  // orden: lo que eligió la persona > preferencia del sistema > claro
   const guardado = leerTemaGuardado();
   if (guardado) {
     aplicarTema(guardado);
@@ -47,7 +50,7 @@
     aplicarTema('dark');
   }
 
-  // El botón existe solo cuando el DOM está listo
+  // como el script está en el head, el botón todavía no existe: esperar al DOM
   document.addEventListener('DOMContentLoaded', function () {
     actualizarBoton();
     const boton = document.getElementById('theme-toggle');

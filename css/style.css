@@ -465,15 +465,17 @@ form button[type='submit'] { margin-top: var(--space-2); }
   * { transition: none !important; }
 }
 
-/* Tablet: 768px - 1024px (mobile-first: los estilos base son móvil, < 768px) */
-@media (min-width: 768px) {
+/* Tablet: 768px a 1024px (el móvil, < 768px, son los estilos base de arriba) */
+@media (min-width: 768px) and (max-width: 1024px) {
   main { padding-left: var(--space-4); padding-right: var(--space-4); }
 
+  /* Foto a la izquierda del texto en la portada */
   .maincontent .maincontent-photo { float: left; margin: 0 var(--space-4) var(--space-2) 0; }
   .maincontent .rol, .maincontent h1 { text-align: left; }
   .maincontent > p { margin-left: 0; }
   .contact-line { clear: left; }
 
+  /* Proyectos en dos columnas; el encabezado de la sección ocupa todo el ancho */
   section:has(> .proyecto-card) {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -490,7 +492,8 @@ form button[type='submit'] { margin-top: var(--space-2); }
   .repos-list { display: grid; grid-template-columns: repeat(2, 1fr); }
 }
 
-/* Escritorio: > 1024px */
+/* Escritorio: más de 1024px. Repite el layout de contenido de tablet porque
+   los dos rangos ya no se solapan, y suma la barra lateral fija. */
 @media (min-width: 1025px) {
   header {
     position: fixed;
@@ -513,5 +516,23 @@ form button[type='submit'] { margin-top: var(--space-2); }
   main > * { max-width: var(--max-w); }
   .site-footer { margin-left: var(--sidebar-w); }
 
-  section:has(> .proyecto-card) { grid-template-columns: repeat(2, 1fr); }
+  .maincontent .maincontent-photo { float: left; margin: 0 var(--space-4) var(--space-2) 0; }
+  .maincontent .rol, .maincontent h1 { text-align: left; }
+  .maincontent > p { margin-left: 0; }
+  .contact-line { clear: left; }
+
+  section:has(> .proyecto-card) {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    align-items: start;
+  }
+  section:has(> .proyecto-card) > .section-label,
+  section:has(> .proyecto-card) > h1,
+  section:has(> .proyecto-card) > p {
+    grid-column: 1 / -1;
+  }
+  .proyecto-card { margin-bottom: 0; }
+
+  .repos-list { display: grid; grid-template-columns: repeat(2, 1fr); }
 }

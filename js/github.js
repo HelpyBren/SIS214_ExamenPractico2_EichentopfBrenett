@@ -1,4 +1,5 @@
-// consume la API REST pública de GitHub
+// trae mis repositorios más recientes desde la API pública de GitHub
+// (sin token, así que el límite es de 60 peticiones por hora por IP)
 
 (function () {
   const USUARIO_GITHUB = 'HelpyBren';
@@ -6,7 +7,7 @@
   const estado = document.getElementById('repos-status');
   if (!lista || !estado) return;
 
-  // Error propio que conserva el código HTTP recibido
+  // error propio para guardar el código HTTP y mostrar el mensaje correcto después
   class ErrorHttp extends Error {
     constructor(codigo, mensaje) {
       super(mensaje);
@@ -15,6 +16,7 @@
     }
   }
 
+  // traduce el código HTTP a algo que entienda quien visita la página
   function mensajePorEstado(codigo) {
     switch (codigo) {
       case 400:
@@ -31,6 +33,7 @@
     }
   }
 
+  // los tres estados de la interfaz: cargando, error y éxito
   function mostrarCargando() {
     lista.replaceChildren();
     estado.textContent = 'Cargando repositorios…';
@@ -44,6 +47,7 @@
     estado.classList.remove('hidden');
   }
 
+  // textContent y no innerHTML: la descripción la escribe cualquiera en GitHub
   function crearTarjeta(repo) {
     const item = document.createElement('li');
     item.className = 'repo-card';
@@ -85,6 +89,7 @@
         `https://api.github.com/users/${USUARIO_GITHUB}/repos?sort=updated&per_page=6`
       );
 
+      // fetch no falla con un 404 o 500, hay que mirar respuesta.ok a mano
       if (!respuesta.ok) {
         throw new ErrorHttp(respuesta.status, mensajePorEstado(respuesta.status));
       }

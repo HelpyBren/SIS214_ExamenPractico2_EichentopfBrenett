@@ -1,11 +1,13 @@
-
+// validación del formulario de contacto (todo en el cliente, no hay backend)
 (function () {
   const form = document.getElementById('form-contacto');
   if (!form) return;
 
   const status = document.getElementById('form-status');
+  // el type="email" nativo acepta "a@b" sin punto, por eso esta regex extra
   const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+  // el <p class="error-msg"> está justo debajo de cada campo
   function mensajeDe(campo) {
     const siguiente = campo.nextElementSibling;
     return siguiente && siguiente.classList.contains('error-msg') ? siguiente : null;
@@ -31,10 +33,11 @@
     }
   }
 
-  //devuelve el texto de error del campo o '' si es válido
+  // devuelve el texto del error, o '' si el campo está bien
   function obtenerError(campo) {
     const valor = campo.value.trim();
 
+    // el trim() es para que unos cuantos espacios no cuenten como "lleno"
     if (campo.validity.valueMissing || (campo.required && valor === '')) {
       return 'Este campo es obligatorio.';
     }
@@ -67,7 +70,7 @@
   form.addEventListener('submit', function (evento) {
     evento.preventDefault();
 
-    // map() evalúa TODOS los campos (así se muestran todos los errores a la vez)
+    // map y no some/every directo: así se revisan todos y salen todos los errores juntos
     const resultados = campos.map(validarCampo);
     const formularioValido = resultados.every(Boolean);
 
@@ -81,6 +84,7 @@
       status.textContent = 'Revisa los campos marcados antes de enviar.';
       status.classList.add('fail');
 
+      // foco al primer error para no tener que buscarlo
       const primerInvalido = campos.find(function (campo) {
         return campo.classList.contains('invalid');
       });
