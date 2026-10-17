@@ -3,41 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Habilidades técnicas, herramientas, idiomas y habilidades blandas de Brenett Eichentopf Sanchez.">
     <title>Habilidades · Hoja de vida</title>
     <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
 </head>
 <body>
+    <a class="skip-link" href="#contenido">Saltar al contenido</a>
     <header>
         <button id="menu-toggle" class="menu-toggle" type="button" aria-expanded="false" aria-controls="nav-principal" aria-label="Abrir menú de navegación">
             <span aria-hidden="true">&#9776;</span>
         </button>
-        <nav id="nav-principal">
+        <nav id="nav-principal" aria-label="Navegación principal">
             <ul>
                 <li><a href="index.html">Inicio</a></li>
                 <li><a href="formacion.html">Formación</a></li>
                 <li><a href="habilidades.html" aria-current="page">Habilidades</a></li>
                 <li><a href="experiencia.html">Experiencia</a></li>
-                <li><a href="contacto.html">Contactos</a></li>
+                <li><a href="contacto.html">Contacto</a></li>
             </ul>
         </nav>
-        <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar entre modo claro y oscuro" aria-pressed="false">Modo oscuro</button>
+        <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Cambiar entre modo claro y oscuro" aria-pressed="false">Modo oscuro</button>
     </header>
 
-    <main>
+    <main id="contenido">
         <section aria-labelledby="habilidades-titulo">
             <span class="section-label">Lo que sé hacer</span>
             <h1 id="habilidades-titulo">Habilidades técnicas</h1>
             <p>Un resumen de los lenguajes, herramientas e idiomas que manejo actualmente.</p>
-            </section>
+        </section>
 
-            <section class="filtro-habilidades" aria-labelledby="filtro-titulo">
+        <section class="filtro-habilidades" aria-labelledby="filtro-titulo">
             <h2 id="filtro-titulo" class="sr-only">Buscar una habilidad</h2>
             <label for="buscador-habilidades">Buscar habilidad</label>
-            <input type="search" id="buscador-habilidades" placeholder="Ej. Java, Git, inglés…" autocomplete="off">
-            <p id="filtro-resultado" aria-live="polite"></p>
-            </section>
+            <input type="search" id="buscador-habilidades" placeholder="Ej. Java, Git, inglés…" autocomplete="off" aria-describedby="filtro-resultado">
+            <p id="filtro-resultado" role="status" aria-live="polite"></p>
+        </section>
 
-            <section class="skills-group" aria-labelledby="lenguajes-titulo">
+        <section class="skills-group" aria-labelledby="lenguajes-titulo">
             <h2 id="lenguajes-titulo">Lenguajes de programación</h2>
             <ul>
                 <li>Python</li>
@@ -47,26 +50,26 @@
                 <li>HTML</li>
                 <li>CSS</li>
             </ul>
-            </section>
+        </section>
 
-            <section class="skills-group" aria-labelledby="herramientas-titulo">
+        <section class="skills-group" aria-labelledby="herramientas-titulo">
             <h2 id="herramientas-titulo">Herramientas</h2>
             <ul>
                 <li>Git</li>
                 <li>GitHub</li>
                 <li>Adobe Animate (Flash)</li>
             </ul>
-            </section>
+        </section>
 
-            <section class="skills-group" aria-labelledby="idiomas-titulo">
+        <section class="skills-group" aria-labelledby="idiomas-titulo">
             <h2 id="idiomas-titulo">Idiomas</h2>
             <ul>
                 <li>Español — nativo</li>
                 <li>Inglés — nivel B2</li>
             </ul>
-            </section>
+        </section>
 
-            <section class="skills-group" aria-labelledby="blandas-titulo">
+        <section class="skills-group" aria-labelledby="blandas-titulo">
             <h2 id="blandas-titulo">Habilidades blandas</h2>
             <ul>
                 <li>Control de calidad</li>
@@ -83,7 +86,6 @@
         <p>&copy; 2026 Brenett Eichentopf Sanchez</p>
     </footer>
     <script src="js/menu.js"></script>
-    <script src="js/theme.js"></script>
     <script src="js/filtro.js"></script>
 </body>
 </html>
