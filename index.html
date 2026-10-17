@@ -4,8 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portafolio Profesional</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    
+    <header>
+        <div class="header-inner">
+            <nav>
+                <ul>
+                    <li><a href="index.html" aria-current="page">Inicio</a></li>
+                    <li><a href="formacion.html">Formación</a></li>
+                    <li><a href="habilidades.html">Habilidades</a></li>
+                    <li><a href="experiencia.html">Experiencia</a></li>
+                    <li><a href="contacto.html">Contactos</a></li>
+                </ul>
+            </nav>
+            <button id="theme-toggle" class="theme-toggle" aria-label="Cambiar entre modo claro y oscuro">Modo oscuro</button>
+        </div>
+    </header>
+
+    <main>
+        <section class="maincontent" aria-labelledby="maincontent-nombre">
+            <img class="maincontent-photo" src="assets/images/perfil.jpg" alt="Foto de perfil de Brenett Eichentopf Sanchez">
+            <p class="rol">Estudiante de Ingeniería de Sistemas</p>
+            <h1 id="maincontent-nombre">Brenett Eichentopf Sanchez</h1>
+            <p>Futuro desarrollador de software, apasionado por el aprendizaje continuo. Cursando el 4to semestre de Ingeniería de Sistemas en la Universidad Católica Boliviana &ldquo;San Pablo&rdquo;, con interés particular en desarrollo de software y desarrollo de videojuegos.</p>
+            <ul class="contact-line">
+                <li><a href="mailto:brenett.eichentopf@ucb.edu.bo">brenett.eichentopf@ucb.edu.bo</a></li>
+                <li>La Paz, Bolivia</li>
+                <li><a href="tel:+59162383463">+591 62383463</a></li>
+            </ul>
+           
+            <a class="btn btn-primary" href="https://github.com/HelpyBren?tab=repositories" target="_blank" rel="noopener">Ver GitHub</a>
+            <a class="btn btn-secondary" href="contacto.html">Contactarme</a>
+            
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <ul class="social">
+            <li><a href="https://github.com/HelpyBren" target="_blank" rel="noopener">GitHub</a></li>
+            <li><a href="mailto:brenett.eichentopf@ucb.edu.bo">Correo</a></li>
+        </ul>
+        <p>&copy; 2026 Brenett Eichentopf Sanchez</p>
+    </footer>
+    <script src="js/theme.js"></script>
 </body>
 </html>
